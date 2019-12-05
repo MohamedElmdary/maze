@@ -1,0 +1,17 @@
+{
+    "name": "maze",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "dev": "parcel src/index.html"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "p5": "^0.10.2",
+        "parcel-bundler": "^1.12.4"
+    },
+    "devDependencies": {
+        "@types/p5": "^0.9.0",
+        "typescript": "^3.7.3"
+    }
+}
