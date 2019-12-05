@@ -22,9 +22,23 @@ class Cell {
             .forEach(args => p.line.apply(p, args));
 
         if (this.visited) {
+            p.noStroke();
             p.fill(255, 0, 255, 100);
             p.rect(x, y, w, w);
         }
+    }
+
+    public highlight(
+        w: number,
+        p: P5,
+        color: number = 255,
+        alpha: number = 100
+    ): void {
+        const x = this.x * w;
+        const y = this.y * w;
+        p.noStroke();
+        p.fill(0, 0, color, alpha);
+        p.rect(x, y, w, w);
     }
 
     public checkNeighbors(grid: Cell[][], p: P5): Cell | undefined {

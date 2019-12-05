@@ -2,15 +2,16 @@ import P5 from "p5";
 import { Cell } from "./cell";
 
 let cols: number, rows: number;
-const w = 40;
+const w = 50;
 const grid: Cell[][] = [];
 let current: Cell;
+const stack: Cell[] = [];
 
 new P5((p: P5) => {
     p.setup = () => {
         console.log("set up...");
-        p.frameRate(5);
-        p.createCanvas(400, 400);
+        // p.frameRate(1);
+        p.createCanvas(500, 500);
         cols = p.floor(p.width / w);
         rows = p.floor(p.height / w);
 
@@ -33,10 +34,38 @@ new P5((p: P5) => {
             }
         }
         current.visited = true;
+        current.highlight(w, p);
         let next = current.checkNeighbors(grid, p);
+
+        for (const cell of stack) {
+            cell.highlight(w, p, 56, 150);
+        }
+
         if (next) {
             next.visited = true;
+            stack.push(current);
+            removeWalls(current, next);
             current = next;
+        } else if (stack.length) {
+            current = stack.pop();
         }
     };
 });
+
+function removeWalls(current: Cell, next: Cell) {
+    const x = current.x - next.x;
+    if (x === 1) {
+        current.walls[3] = next.walls[1] = false;
+    }
+    if (x === -1) {
+        current.walls[1] = next.walls[3] = false;
+    }
+
+    const y = current.y - next.y;
+    if (y === 1) {
+        current.walls[0] = next.walls[2] = false;
+    }
+    if (y === -1) {
+        current.walls[2] = next.walls[0] = false;
+    }
+}
